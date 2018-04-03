@@ -22,6 +22,8 @@ if(isset($_POST["user_new_username"]) && isset($_POST["user_new_email"]) && isse
 }
 
 function PrintLoginForm($username, $email) {
+    echo '<a href="../start.php">Zurück</a>';
+    echo '<h2>Neuen Benutzer anlegen</h2>';
     echo '<form action="add_user.php" method="POST">';
     echo 'Benutzername: <input type="text" name="user_new_username" value="' . $username . '" /><br />';
     echo 'E-Mail Adresse: <input type="text" name="user_new_email" value="' . $email . '" /><br />';

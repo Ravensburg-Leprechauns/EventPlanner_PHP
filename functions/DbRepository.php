@@ -44,7 +44,10 @@
 
         /* TEAM */
         public function AddTeam($designation) {
+            $designation = $this->dbConnection->real_escape_string($designation);
 
+            $query = "INSERT INTO team(designation) VALUES ('$designation')";
+            $this->dbConnection->query($query);
         }
 
         public function DeleteTeam($designation) {
