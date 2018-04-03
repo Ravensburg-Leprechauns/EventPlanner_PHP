@@ -1,5 +1,9 @@
 <?php
-    class DbRepository implements IReposiroy {
+
+    include 'dbaccess.inc.php';
+    include 'IRepository.php';
+
+    class DbRepository implements IRepository {
     
         private $dbConnection;
 
@@ -10,6 +14,23 @@
         /* USER */
         public function AddUser($mail, $username, $password, $isAdmin) {
 
+            $mail = $this->dbConnection->real_escape_string($mail);
+            $username = $this->dbConnection->real_escape_string($username);
+            $password = $this->dbConnection->real_escape_string($password);
+            
+            if($isAdmin) {
+                $isAdmin = 1;
+            } else {
+                $isAdmin = 0;
+            }
+
+            $options = [
+                'cost' => 12,
+            ];
+            $password = password_hash($password, PASSWORD_BCRYPT, $options);
+
+            $query = "INSERT INTO user(mail, username, password, is_admin) VALUES ('$mail', '$username', '$password', $isAdmin)";
+            $this->dbConnection->query($query);
         }
 
         public function GetUser($mail, $password) {
