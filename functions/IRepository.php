@@ -6,9 +6,11 @@ Interface IRepository {
     public function AddUser($mail, $username, $password, $isAdmin);
     public function GetUser($mail, $password);
     public function DeleteUser($mail);
+    public function GetAllUsers();
 
     /* TEAM */
     public function AddTeam($designation);
+    public function GetAllTeams();
     public function DeleteTeam($designation);
     public function RenameTeam($oldDesignation, $newDesignation);
 

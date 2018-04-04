@@ -1,7 +1,8 @@
 <?php
 
-    include 'dbaccess.inc.php';
-    include 'IRepository.php';
+    include_once 'dbaccess.inc.php';
+    include_once 'IRepository.php';
+    include_once '../classes/User.php';
 
     class DbRepository implements IRepository {
     
@@ -33,6 +34,24 @@
             $this->dbConnection->query($query);
         }
 
+        public function GetAllUsers() {
+            $query = "SELECT u.mail as mail, u.username as username, u.password as password, t.designation as team_designation  from user u LEFT OUTER JOIN team_assignment a ON u.mail = a.user_mail LEFT OUTER JOIN team t ON a.team_id = t.id";
+
+            $result = $this->dbConnection->query($query);
+            $users = array();
+            
+            while ($rowUser = mysqli_fetch_assoc($result)) {
+                $user = new User();
+                $user->Username = $rowUser["username"];
+                $user->Mail = $rowUser["mail"];
+                $user->EncryptedPassword = $rowUser["password"];
+                $user->TeamDesignation = $rowUser["team_designation"];
+                $users[] = $user;
+            }
+
+            return $users;
+        }
+
         public function GetUser($mail, $password) {
 
         }
@@ -48,6 +67,19 @@
 
             $query = "INSERT INTO team(designation) VALUES ('$designation')";
             $this->dbConnection->query($query);
+        }
+
+        public function GetAllTeams() {
+            $query = "SELECT designation from team";
+            
+            $result = $this->dbConnection->query($query);
+            $teams = array();
+            
+            while ($rowTeam = mysqli_fetch_assoc($result)) {
+                $teams[] = $rowTeam["designation"];
+            }
+
+            return $teams;
         }
 
         public function DeleteTeam($designation) {
