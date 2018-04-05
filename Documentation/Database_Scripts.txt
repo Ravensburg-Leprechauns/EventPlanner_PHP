@@ -1,19 +1,18 @@
 CREATE TABLE user (
-    mail VARCHAR(50) PRIMARY KEY,
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    mail VARCHAR(50),
     password CHAR(60),
     username VARCHAR(50),
     is_admin TINYINT UNSIGNED
 );
 
 CREATE TABLE team (
-    id TINYINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    designation VARCHAR (50)
+    designation VARCHAR (50) PRIMARY KEY
 );
 
 CREATE TABLE team_assignment (
-    team_id TINYINT UNSIGNED REFERENCES team(id),
-    user_mail VARCHAR(50) REFERENCES user(mail),
-    PRIMARY KEY(team_id, user_mail)
+    team_designation VARCHAR(50) REFERENCES team(designation),
+    user_id INT UNSIGNED PRIMARY KEY REFERENCES user(id)
 );
 
 CREATE TABLE event(
@@ -31,12 +30,12 @@ CREATE TABLE event(
 
 CREATE TABLE event_assignment (
     event_id INT UNSIGNED REFERENCES event (id),
-    team_id TINYINT UNSIGNED REFERENCES team(id),
-    PRIMARY KEY (event_id, team_id)
+    team_designation VARCHAR(50) REFERENCES team(designation),
+    PRIMARY KEY (event_id, team_designation)
 );
 
 CREATE TABLE event_participation (
-	user_mail VARCHAR(50) REFERENCES user(mail),
+	user_id INT UNSIGNED REFERENCES user(id),
     event_id INT UNSIGNED REFERENCES event(id),
     accepted TINYINT UNSIGNED,
     note VARCHAR(50),
@@ -45,5 +44,5 @@ CREATE TABLE event_participation (
     is_scorer TINYINT UNSIGNED,
     is_player TINYINT UNSIGNED,
     is_coach TINYINT UNSIGNED,
-    PRIMARY KEY(user_mail, event_id)
+    PRIMARY KEY(user_id, event_id)
 );

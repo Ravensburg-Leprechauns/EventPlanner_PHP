@@ -35,18 +35,21 @@
         }
 
         public function GetAllUsers() {
-            $query = "SELECT u.mail as mail, u.username as username, u.password as password, t.designation as team_designation  from user u LEFT OUTER JOIN team_assignment a ON u.mail = a.user_mail LEFT OUTER JOIN team t ON a.team_id = t.id";
+            $query = "SELECT u.id, u.mail as mail, u.username as username, u.password as password, t.designation as team_designation  from user u LEFT OUTER JOIN team_assignment a ON u.id = a.user_id LEFT OUTER JOIN team t ON a.team_designation = t.designation";
 
             $result = $this->dbConnection->query($query);
             $users = array();
             
-            while ($rowUser = mysqli_fetch_assoc($result)) {
-                $user = new User();
-                $user->Username = $rowUser["username"];
-                $user->Mail = $rowUser["mail"];
-                $user->EncryptedPassword = $rowUser["password"];
-                $user->TeamDesignation = $rowUser["team_designation"];
-                $users[] = $user;
+            if($result) {
+                while ($rowUser = mysqli_fetch_assoc($result)) {
+                    $user = new User();
+                    $user->Id = $rowUser["id"];
+                    $user->Username = $rowUser["username"];
+                    $user->Mail = $rowUser["mail"];
+                    $user->EncryptedPassword = $rowUser["password"];
+                    $user->TeamDesignation = $rowUser["team_designation"];
+                    $users[] = $user;
+                }
             }
 
             return $users;
@@ -73,10 +76,13 @@
             $query = "SELECT designation from team";
             
             $result = $this->dbConnection->query($query);
-            $teams = array();
             
-            while ($rowTeam = mysqli_fetch_assoc($result)) {
-                $teams[] = $rowTeam["designation"];
+            $teams = array();
+
+            if($result) {
+                while ($rowTeam = mysqli_fetch_assoc($result)) {
+                    $teams[] = $rowTeam["designation"];
+                }
             }
 
             return $teams;
@@ -92,8 +98,11 @@
                 
 
         /* Team Assignments */
-        public function AddUserToTeam($userEmail, $teamDesignation) {
-            
+        public function AddUserToTeam($userId, $teamDesignation) {
+            $userId = $this->dbConnection->real_escape_string($userId);
+            $teamDesignation = $this->dbConnection->real_escape_string($teamDesignation);
+            $query = "INSERT INTO team_assignment (team_designation, user_id) VALUES('$teamDesignation', '$userId') ON DUPLICATE KEY UPDATE team_designation='$teamDesignation'";
+            $this->dbConnection->query($query);
         }
                 
         public function RemoveUserFromTeam ($userEmail, $teamDesignation) {

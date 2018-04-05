@@ -4,6 +4,16 @@
     include_once '../classes/User.php';
 
     $repo = new DbRepository();
+
+    if(sizeof($_POST) > 0) {
+        foreach($_POST as $uid => $team) {
+            if($team != '') {
+                $repo->AddUserToTeam($uid, $team);
+            }
+        }
+        header('Location: ../start.php');
+    }
+
     $users = $repo->GetAllUsers();
     $teams = $repo->GetAllTeams();
 
@@ -31,7 +41,7 @@
 
             echo '<td>' . $user->Username . '</td>';
             echo '<td>' . $user->Mail . '</td>';
-            echo '<td><select name="' . $user->Mail . '">';
+            echo '<td><select name="' . $user->Id . '">';
 
             if($user->TeamDesignation == "" || $user->TeamDesignation == null) {
                 echo '<option selected></option>';
