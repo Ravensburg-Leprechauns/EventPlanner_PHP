@@ -111,8 +111,21 @@
 
 
         /* Event */
-        public function AddEvent($designation, $description, $location, $startTime, $meetingTime, $meetingLocation, $umpsRequired, $scorerRequired, $seatsRequired) {
-            
+        public function AddEvent($designation, $description, $location, $startTime, $meetingLocation, $meetingTime, $seatsRequired, $umpsRequired, $scorerRequired) {
+           
+            $designation = $this->dbConnection->real_escape_string($designation);
+            $description = $this->dbConnection->real_escape_string($description);
+            $location = $this->dbConnection->real_escape_string($location);
+            $startTime = $this->dbConnection->real_escape_string($startTime);
+            $meetingLocation = $this->dbConnection->real_escape_string($meetingLocation);
+            $meetingTime = $this->dbConnection->real_escape_string($meetingTime);
+            $seatsRequired = $this->dbConnection->real_escape_string($seatsRequired);
+            $umpsRequired = $this->dbConnection->real_escape_string($umpsRequired);
+            $scorerRequired = $this->dbConnection->real_escape_string($scorerRequired);
+           
+            $query = "INSERT INTO event(designation, description, location, start_time, meeting_location, meeting_time, qty_seats, qty_umpire, qty_scorer) VALUES ('$designation', '$description','$location','$startTime','$meetingLocation','$meetingTime','$seatsRequired','$umpsRequired','$scorerRequired')";
+
+            echo $query;
         }
                 
         public function DeleteEvent($eventId) {
