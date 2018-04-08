@@ -29,9 +29,9 @@ if(isset($_POST["submit_new_event"])) {
     echo 'Bezeichnung <input type="text" name="event_new_designation"/><br/>';
     echo 'Beschreibung <br/><textarea name="event_new_description" cols="40" rows="5"></textarea><br/>';
     echo 'Ort <input type="text" name="event_new_location"/><br/>';
-    echo 'Startzeit <input type="text" name="event_new_time"/><br/>';
+    echo 'Startzeit <input type="datetime-local" name="event_new_time"/><br/>';
     echo 'Treffpunkt <input type="text" name="event_new_meeting_location"/><br/>';
-    echo 'Treffpunkt Zeitpunkt <input type="text" name="event_new_meeting_time"/><br/>';
+    echo 'Treffpunkt Zeitpunkt <input type="datetime-local" name="event_new_meeting_time"/><br/>';
 
     echo 'Plätze benötigt <input type="number" name="event_new_seats"/><br/>';
     echo 'Umpires benötigt <input type="number" name="event_new_umpires"/><br/>';
