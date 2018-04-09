@@ -1,7 +1,7 @@
 <?php
 
-    include_once '../functions/dbRepository.php';
-    include_once '../classes/User.php';
+    include_once ROOT . '/functions/dbRepository.php';
+    include_once ROOT . '/classes/User.php';
 
     $repo = new DbRepository();
 

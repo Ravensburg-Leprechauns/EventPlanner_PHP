@@ -2,11 +2,14 @@
 
 Interface IRepository {
     
+    public function GetLastInsertedId();
+
     /* USER */
     public function AddUser($mail, $username, $password, $isAdmin);
     public function GetUser($mail, $password);
     public function DeleteUser($mail);
     public function GetAllUsers();
+    public function ValidateUser($mail, $password);
 
     /* TEAM */
     public function AddTeam($designation);
@@ -23,8 +26,8 @@ Interface IRepository {
     public function DeleteEvent($eventId);
 
     /* Event Assignments */
-    public function AddEventToTeam($eventId, $teamId);
-    public function RemoveEventFromTeam($eventId, $teamId);
+    public function AddEventToTeam($eventId, $team);
+    public function RemoveEventFromTeam($eventId, $team);
 
     /* Event Participation */
     public function AddParticipation($userEmail, $eventId, $accepted, $note, $seats, $isUmpire, $isScorer, $isPlayer, $isCoach);

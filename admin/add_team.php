@@ -3,7 +3,7 @@
 if(isset($_POST["team_new_designation"])) {
 
        
-    include '../functions/dbRepository.php';
+    include ROOT . '/functions/dbRepository.php';
         
     $repo = new DbRepository();
 

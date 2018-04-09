@@ -4,7 +4,7 @@ if(isset($_POST["user_new_username"]) && isset($_POST["user_new_email"]) && isse
 
     if($_POST["user_new_password"] == $_POST["user_new_password_confirmation"]) {
         
-        include_once '../functions/dbRepository.php';
+        include_once ROOT . '/functions/dbRepository.php';
         
         $repo = new DbRepository();
 

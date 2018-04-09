@@ -1,15 +1,23 @@
 <?php
 
-    include_once 'dbaccess.inc.php';
-    include_once 'IRepository.php';
-    include_once '../classes/User.php';
+    include_once ROOT . '/functions/dbaccess.inc.php';
+    include_once ROOT . '/functions/IRepository.php';
+    include_once ROOT . '/classes/User.php';
 
     class DbRepository implements IRepository {
     
         private $dbConnection;
 
-        function __construct() {
+        public function __construct() {
             $this->dbConnection = getDBConnection();
+        }
+
+        public function __destruct() {
+            $this->dbConnection = null;
+        }
+
+        public function GetLastInsertedId() {
+            return $this->dbConnection->insert_id;
         }
 
         /* USER */
@@ -61,6 +69,30 @@
 
         public function DeleteUser($mail) {
 
+        }
+
+        public function ValidateUser($mail, $password) {
+            
+            $mail = $this->dbConnection->real_escape_string($mail);
+            $query = "SELECT is_admin, username, password FROM user WHERE mail = '$mail'";
+            $result = $this->dbConnection->query($query);
+            $row = $result->fetch_assoc();
+            
+            if($result->num_rows === 0 || !password_verify($password , $row["password"])) {
+                return null;
+            } else {
+
+                $id = $row['is_admin'];
+                $username = $row['username'];
+    
+                if($id == 0) {
+                    $_SESSION["username"] = $username;
+                    return "user";
+                } else if($id == 1) {
+                    $_SESSION["username"] = $username;
+                    return "admin";
+                }
+            }
         }
 
 
@@ -125,7 +157,7 @@
            
             $query = "INSERT INTO event(designation, description, location, start_time, meeting_location, meeting_time, qty_seats, qty_umpire, qty_scorer) VALUES ('$designation', '$description','$location','$startTime','$meetingLocation','$meetingTime','$seatsRequired','$umpsRequired','$scorerRequired')";
 
-            echo $query;
+            $this->dbConnection->query($query);
         }
                 
         public function DeleteEvent($eventId) {
@@ -134,11 +166,16 @@
 
 
         /* Event Assignments */
-        public function AddEventToTeam($eventId, $teamId) {
+        public function AddEventToTeam($eventId, $team) {
+            $eventId = $this->dbConnection->real_escape_string($eventId);
+            $team = $this->dbConnection->real_escape_string($team);
             
+            $query = "INSERT INTO event_assignment(event_id, team_designation) VALUES ($eventId, '$team')";
+
+            $this->dbConnection->query($query);
         }
                 
-        public function RemoveEventFromTeam($eventId, $teamId) {
+        public function RemoveEventFromTeam($eventId, $team) {
             
         }
 
