@@ -3,6 +3,7 @@
     include_once ROOT . '/functions/dbaccess.inc.php';
     include_once ROOT . '/functions/IRepository.php';
     include_once ROOT . '/classes/User.php';
+    include_once ROOT . '/classes/MailConfiguration.php';
 
     class DbRepository implements IRepository {
     
@@ -139,7 +140,27 @@
                 
         public function RemoveUserFromTeam ($userEmail, $teamDesignation) {
             
-        }   
+        }
+
+        public function GetAllUsersInTeam($teamDesignation) {
+            $teamDesignation = $this->dbConnection->real_escape_string($teamDesignation);
+            $query = "SELECT u.mail, u.username FROM user u WHERE u.Id IN (SELECT user_id FROM team_assignment WHERE team_designation = '" . $teamDesignation . "')";
+            
+            $result = $this->dbConnection->query($query);
+            
+            $users = array();
+
+            if($result) {
+                while ($rowUser = mysqli_fetch_assoc($result)) {
+                    $user = new User();
+                    $user->Username = $rowUser["username"];
+                    $user->Mail = $rowUser["mail"];
+                    
+                    $users[] = $user;
+                }
+            }
+            return $users;
+        }
 
 
         /* Event */
@@ -184,6 +205,24 @@
         public function AddParticipation($userEmail, $eventId, $accepted, $note, $seats, $isUmpire, $isScorer, $isPlayer, $isCoach) {
             
         }
-               
+        
+        /* Mail Configuration */
+        public function GetMailConfiguration() {
+            $query = "SELECT host, username, password, smtp_secure, port, from_address, from_name FROM mail_configuration LIMIT 1";
+            $result = $this->dbConnection->query($query);
+            $row = $result->fetch_assoc();
+
+            $config = new MailConfiguration();
+
+            $config->Host = $row["host"];
+            $config->Username = $row["username"];
+            $config->Password = $row["password"];
+            $config->SmtpSecure = $row["smtp_secure"];
+            $config->Port = $row["port"];
+            $config->FromAddress = $row["from_address"];
+            $config->FromName = $row["from_name"];
+
+            return $config;
+        }
     }
 ?>

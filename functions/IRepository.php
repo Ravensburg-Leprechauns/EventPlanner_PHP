@@ -20,6 +20,7 @@ Interface IRepository {
     /* Team Assignments */
     public function AddUserToTeam($userEmail, $teamDesignation);
     public function RemoveUserFromTeam ($userEmail, $teamDesignation);
+    public function GetAllUsersInTeam($team);
 
     /* Event */
     public function AddEvent($designation, $description, $location, $startTime, $meetingTime, $meetingLocation, $umpsRequired, $scorerRequired, $seatsRequired);
@@ -31,6 +32,9 @@ Interface IRepository {
 
     /* Event Participation */
     public function AddParticipation($userEmail, $eventId, $accepted, $note, $seats, $isUmpire, $isScorer, $isPlayer, $isCoach);
+
+    /* Mail Configuration */
+    public function GetMailConfiguration();
 }
 
 ?>
