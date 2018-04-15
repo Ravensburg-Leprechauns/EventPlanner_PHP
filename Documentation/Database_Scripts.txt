@@ -46,3 +46,14 @@ CREATE TABLE event_participation (
     is_coach TINYINT UNSIGNED,
     PRIMARY KEY(user_id, event_id)
 );
+
+CREATE TABLE mail_configuration (
+	host VARCHAR(50),
+	username VARCHAR(50),
+	password VARCHAR(50) NOT NULL,
+	smtp_secure CHAR(3),
+	port SMALLINT NOT NULL,
+	from_address VARCHAR(50) NOT NULL,
+	from_name VARCHAR(50),
+	PRIMARY KEY(host, username)
+);
