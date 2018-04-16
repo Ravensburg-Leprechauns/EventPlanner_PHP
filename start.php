@@ -1,23 +1,27 @@
 <?php
 
     session_start();
+
+    $_SESSION["leps_root"] = dirname(__FILE__);
+    $_SESSION["leps_url"] = $_SERVER['HTTP_HOST'].dirname($_SERVER['PHP_SELF']);
     
-    include_once 'constants.inc.php';
+    define('ROOT', $_SESSION["leps_root"]);
+
     include_once ROOT . '/functions/dbRepository.php';
+    include_once ROOT . '/functions/session.inc.php';
 
     $repo = new DbRepository();
     
-    $email = $_POST["email"];
-    $password = $_POST["password"];
-    
-    $usertype = $repo->ValidateUser($email, $password);
+    if(!ValidateCurrentUser() && !$repo->ValidateUser($_POST["email"], $_POST["password"])) {
+        Logout();
+    }
 
-    if($usertype == "user") {
+    if($_SESSION["usertype"] == "user") {
 
         echo '<h2>Hallo ' . $_SESSION["username"] . '</h2>';
         PrintUserOptions();
 
-    } else if($usertype == "admin") {
+    } else if($_SESSION["usertype"] == "admin") {
 
         echo '<h2>Hallo ' . $_SESSION["username"] . '</h2>';
         echo '<h3>Administration</h3>';
@@ -45,6 +49,7 @@
         echo '<li>Aktuelle Events</li>';
         echo '<li>Vergangene Events</li>';
         echo '<li>Einstellungen</li>';
+        echo '<li><a href="logout.php">Abmelden</a></li>';
         echo '</ul>';
         
     }

@@ -2,10 +2,15 @@
 
 session_start();
 
-include_once './../constants.inc.php';
+define('ROOT', $_SESSION["leps_root"]);
+
 include_once ROOT . '/classes/Event.php';
-include ROOT . '/functions/dbRepository.php';
-include ROOT . '/functions/mailer.inc.php';
+include_once ROOT . '/functions/dbRepository.php';
+include_once ROOT . '/functions/mailer.inc.php';
+include_once ROOT . '/functions/session.inc.php';
+
+if(!ValidateCurrentUser())
+    Logout();
 
 $repo = new DbRepository();
 $teams = $repo->GetAllTeams();
@@ -50,7 +55,7 @@ if(isset($_POST["submit_new_event"])) {
     }
 
     if(isset($_POST["chkSendBulkMails"])) {
-        if(SendMails($event, "Marcel Jurtz", $selectedTeams)) {
+        if(SendMails($event, $_SESSION["username"], $selectedTeams)) {
             header('Location: ../start.php');
         } else {
             echo '<p>Das Event wurde angelegt, aber beim versenden der Nachricht(en) ist ein Fehler aufgetreten.<br/>Bitte überprüfen Sie Ihre Mail-Konfiguration und benachrichten Sie Ihren Administrator.</p>';
@@ -61,7 +66,7 @@ if(isset($_POST["submit_new_event"])) {
 } else {
     echo '<a href="../start.php">Zurück</a>';
     echo '<h2>Neues Event anlegen</h2>';
-    echo '<form name="form_add_event" action="add_event.php" method="POST" onsubmit="return validateForm()">';
+    echo '<form name="form_add_event" action="' . ROOT . '/admin/add_event.php" method="POST" onsubmit="return validateForm()">';
     
     echo '<label>Bezeichnung <input type="text" name="event_new_designation"/></label><br/>';
     echo '<label>Beschreibung <br/><textarea name="event_new_description" cols="40" rows="5"></textarea></label><br/>';

@@ -80,19 +80,23 @@
             $row = $result->fetch_assoc();
             
             if($result->num_rows === 0 || !password_verify($password , $row["password"])) {
-                return null;
+                return false;
             } else {
 
-                $id = $row['is_admin'];
+                $isAdmin = $row['is_admin'];
                 $username = $row['username'];
     
-                if($id == 0) {
+                if($isAdmin == 0 || $isAdmin == 1) {
                     $_SESSION["username"] = $username;
-                    return "user";
-                } else if($id == 1) {
-                    $_SESSION["username"] = $username;
-                    return "admin";
-                }
+                    
+                    if($isAdmin == 0) {
+                        $_SESSION["usertype"] = "user";
+                    } else {
+                        $_SESSION["usertype"] = "admin";
+                    }
+                    
+                    return true;
+                } 
             }
         }
 

@@ -1,10 +1,18 @@
 <?php
 
+session_start();
+
+define('ROOT', $_SESSION["leps_root"]);
+
+include_once ROOT . '/functions/dbRepository.php';
+include_once ROOT . '/functions/session.inc.php';
+
+if(!ValidateCurrentUser())
+    Logout();
+
 if(isset($_POST["user_new_username"]) && isset($_POST["user_new_email"]) && isset($_POST["user_new_password"]) && isset($_POST["user_new_password_confirmation"])) {
 
     if($_POST["user_new_password"] == $_POST["user_new_password_confirmation"]) {
-        
-        include_once ROOT . '/functions/dbRepository.php';
         
         $repo = new DbRepository();
 

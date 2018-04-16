@@ -2,8 +2,13 @@
 
 if(isset($_POST["team_new_designation"])) {
 
-       
-    include ROOT . '/functions/dbRepository.php';
+    define('ROOT', $_SESSION["leps_root"]);
+    
+    include_once ROOT . '/functions/dbRepository.php';
+    include_once ROOT . '/functions/session.inc.php';
+    
+    if(!ValidateCurrentUser())
+        Logout();
         
     $repo = new DbRepository();
 

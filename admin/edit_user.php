@@ -1,7 +1,15 @@
 <?php
 
+    session_start();
+
+    define('ROOT', $_SESSION["leps_root"]);    
+
     include_once ROOT . '/functions/dbRepository.php';
     include_once ROOT . '/classes/User.php';
+    include_once ROOT . '/functions/session.inc.php';
+    
+    if(!ValidateCurrentUser())
+        Logout();
 
     $repo = new DbRepository();
 
