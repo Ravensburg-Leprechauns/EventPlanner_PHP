@@ -1,5 +1,7 @@
 <?php
 
+echo '<link rel="stylesheet" href="../CSS/base.css" type="text/css">';
+
 if(isset($_POST["team_new_designation"])) {
 
     session_start();
@@ -21,8 +23,8 @@ if(isset($_POST["team_new_designation"])) {
     echo '<a href="../start.php">Zurück</a>';
     echo '<h2>Neues Team anlegen</h2>';
     echo '<form action="add_team.php" method="POST">';
-    echo 'Bezeichnung: <input type="text" name="team_new_designation" /><br />';
-    echo '<input type="submit"/>';
+    echo '<label>Bezeichnung: <input type="text" name="team_new_designation" /></label><br />';
+    echo '<input type="submit" value="Speichern"/>';
     echo '</form>';
 }
 

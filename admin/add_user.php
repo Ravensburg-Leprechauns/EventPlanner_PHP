@@ -7,6 +7,8 @@ define('ROOT', $_SESSION["leps_root"]);
 include_once ROOT . '/functions/dbRepository.php';
 include_once ROOT . '/functions/session.inc.php';
 
+echo '<link rel="stylesheet" href="../CSS/base.css" type="text/css">';
+
 if(!ValidateCurrentUser())
     Logout();
 

@@ -9,6 +9,8 @@ include_once ROOT . '/functions/dbRepository.php';
 include_once ROOT . '/functions/mailer.inc.php';
 include_once ROOT . '/functions/session.inc.php';
 
+echo '<link rel="stylesheet" href="../CSS/base.css" type="text/css">';
+
 if(!ValidateCurrentUser())
     Logout();
 
@@ -68,21 +70,21 @@ if(isset($_POST["submit_new_event"])) {
     echo '<h2>Neues Event anlegen</h2>';
     echo '<form name="form_add_event" action="' . ROOT . '/admin/add_event.php" method="POST" onsubmit="return validateForm()">';
     
-    echo '<label>Bezeichnung <input type="text" name="event_new_designation"/></label><br/>';
-    echo '<label>Beschreibung <br/><textarea name="event_new_description" cols="40" rows="5"></textarea></label><br/>';
-    echo '<label>Ort <input type="text" name="event_new_location"/></label><br/>';
-    echo '<label>Startzeit <input type="datetime-local" name="event_new_time"/></label><br/>';
-    echo '<label>Treffpunkt <input type="text" name="event_new_meeting_location"/></label><br/>';
-    echo '<label>Treffpunkt Zeitpunkt <input type="datetime-local" name="event_new_meeting_time"/></label><br/>';
+    echo '<label>Bezeichnung<br/><input type="text" name="event_new_designation"/></label><br/>';
+    echo '<label>Beschreibung<br/><textarea name="event_new_description" cols="40" rows="5"></textarea></label><br/>';
+    echo '<label>Ort<br/><input type="text" name="event_new_location"/></label><br/>';
+    echo '<label>Startzeit<br/><input type="datetime-local" name="event_new_time"/></label><br/>';
+    echo '<label>Treffpunkt<br/><input type="text" name="event_new_meeting_location"/></label><br/>';
+    echo '<label>Treffpunkt Zeitpunkt<br/><input type="datetime-local" name="event_new_meeting_time"/></label><br/>';
 
-    echo '<label>Plätze benötigt <input type="number" name="event_new_seats"/></label><br/>';
-    echo '<label>Umpires benötigt <input type="number" name="event_new_umpires"/></label><br/>';
-    echo '<label>Scorer benötigt <input type="number" name="event_new_scorers"/></label><br/>';
+    echo '<label>Plätze benötigt<br/><input type="number" name="event_new_seats"/></label><br/>';
+    echo '<label>Umpires benötigt<br/><input type="number" name="event_new_umpires"/></label><br/>';
+    echo '<label>Scorer benötigt<br/><input type="number" name="event_new_scorers"/></label><br/>';
 
     // TODO: Overflow CSS
 
     echo '<p>Freigabe für Teams:</p>';
-    echo '<div>';
+    echo '<div class="simpleBorder">';
 
     foreach($teams as $team) {
         echo '<label><input type="checkbox" name="' . $team . '" />' . $team . '</label>';
@@ -90,6 +92,7 @@ if(isset($_POST["submit_new_event"])) {
 
     echo '</div>';
 
+    echo '<br/>';
     echo '<label><input type="checkbox" name="chkSendBulkMails" />Einladungs-EMails versenden</label><br/>';
 
     echo '<input type="submit" name="submit_new_event"/>';

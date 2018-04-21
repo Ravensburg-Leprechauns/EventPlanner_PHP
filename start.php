@@ -27,6 +27,7 @@
 
     } else if($_SESSION["usertype"] == "admin") {
 
+        echo '<div id="main_menu">';
         echo '<h2>Hallo ' . $_SESSION["username"] . '</h2>';
         echo '<h3>Administration</h3>';
         echo '<ul>';

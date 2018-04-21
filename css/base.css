@@ -1,3 +1,43 @@
+* {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+a {
+    text-decoration: none;
+}
+
 .preserveLineBreaks {
     white-space: pre-line;
 }
+
+#main_menu {
+    float: left;
+}
+
+#news {
+    float: left;
+    margin: 50px;
+    margin-left: 100px;
+}
+
+input, textarea {
+    margin-left: 15px;
+    margin-top: 5px;
+}
+
+input[type="submit"] {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.simpleBorder {
+    border: 1px solid #000000;
+    border-radius: 2px;
+    padding: 5px;
+}
+

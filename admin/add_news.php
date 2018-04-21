@@ -1,5 +1,7 @@
 <?php
 
+echo '<link rel="stylesheet" href="../CSS/base.css" type="text/css">';
+
 if(isset($_POST["submit_news"])) {
 
     session_start();
