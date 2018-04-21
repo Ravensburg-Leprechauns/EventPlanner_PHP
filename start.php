@@ -7,6 +7,8 @@
     
     define('ROOT', $_SESSION["leps_root"]);
 
+    echo '<link rel="stylesheet" href="CSS/base.css" type="text/css">';
+
     include_once ROOT . '/functions/dbRepository.php';
     include_once ROOT . '/functions/session.inc.php';
 
@@ -18,8 +20,10 @@
 
     if($_SESSION["usertype"] == "user") {
 
+        echo '<div id="main_menu">';
         echo '<h2>Hallo ' . $_SESSION["username"] . '</h2>';
         PrintUserOptions();
+        PrintLatestNews($repo);
 
     } else if($_SESSION["usertype"] == "admin") {
 
@@ -30,9 +34,11 @@
         echo '<li><a href="admin/edit_user.php">Benutzer verwalten</a></li>';
         echo '<li><a href="admin/add_team.php">Neues Team anlegen</a></li>';
         echo '<li><a href="admin/add_event.php">Neues Event anlegen</a></li>';
+        echo '<li><a href="admin/add_news.php">News</a></li>';
         echo '</ul>';
 
         PrintUserOptions();
+        PrintLatestNews($repo);
 
     } else {
 
@@ -51,6 +57,20 @@
         echo '<li>Einstellungen</li>';
         echo '<li><a href="logout.php">Abmelden</a></li>';
         echo '</ul>';
+        echo '</div>';
         
+    }
+
+    function PrintLatestNews($repo) {
+        echo '<div id="news">';
+
+        echo '<h3>Neuigkeiten</h3>';
+        echo '<p class="preserveLineBreaks">';
+
+        echo $repo->GetLatestNews();
+
+        echo '</p>';
+
+        echo '</div>';
     }
 ?>

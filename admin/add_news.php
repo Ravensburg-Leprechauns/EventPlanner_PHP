@@ -1,6 +1,6 @@
 <?php
 
-if(isset($_POST["team_new_designation"])) {
+if(isset($_POST["submit_news"])) {
 
     session_start();
     define('ROOT', $_SESSION["leps_root"]);
@@ -14,15 +14,15 @@ if(isset($_POST["team_new_designation"])) {
     $repo = new DbRepository();
 
     // TODO - Errorhandling on Inserting User
-    $repo->AddTeam($_POST["team_new_designation"]);
+    $repo->AddNews($_POST["news_designation"]);
 
     header('Location: ../start.php');
 } else {
     echo '<a href="../start.php">Zurück</a>';
-    echo '<h2>Neues Team anlegen</h2>';
-    echo '<form action="add_team.php" method="POST">';
-    echo 'Bezeichnung: <input type="text" name="team_new_designation" /><br />';
-    echo '<input type="submit"/>';
+    echo '<h2>News anlegen</h2>';
+    echo '<form action="add_news.php" method="POST">';
+    echo '<textarea cols=100 rows=20 name="news_designation"></textarea><br />';
+    echo '<input type="submit" name="submit_news" value="Speichern"/>';
     echo '</form>';
 }
 

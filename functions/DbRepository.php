@@ -228,5 +228,29 @@
 
             return $config;
         }
+
+        /* News */
+        public function AddNews($text) {
+            $text = $this->dbConnection->real_escape_string($text);
+            
+            $query = "INSERT INTO news(text) VALUES ('$text')";
+
+            $this->dbConnection->query($query);
+        }
+
+        public function GetLatestNews() {
+            $query = "SELECT text FROM news WHERE id = (SELECT MAX(id) FROM news)";
+
+            $result = $this->dbConnection->query($query);
+
+            $row = $result->fetch_assoc();
+
+            $text = $row["text"];
+            if(!isset($text) || trim($text) === '') {
+                return "Keine Neuigkeiten vorhanden";
+            } else {
+                return $text;
+            }
+        }
     }
 ?>

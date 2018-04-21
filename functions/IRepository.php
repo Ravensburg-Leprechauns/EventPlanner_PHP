@@ -35,6 +35,10 @@ Interface IRepository {
 
     /* Mail Configuration */
     public function GetMailConfiguration();
+
+    /* News */
+    public function AddNews($text);
+    public function GetLatestNews();
 }
 
 ?>

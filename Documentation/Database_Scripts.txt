@@ -57,3 +57,8 @@ CREATE TABLE mail_configuration (
 	from_name VARCHAR(50),
 	PRIMARY KEY(host, username)
 );
+
+CREATE TABLE news (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    text VARCHAR(5000)
+);
