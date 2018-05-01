@@ -66,13 +66,16 @@ if (!empty($events)) {
             echo "<p>
                     <label for='chkSeats_$event->Id'>Ich kann fahren</label>
                     <input type='checkbox' id='chkSeats_$event->Id' name='chkSeats_$event->Id'>";
-            echo "<label for='txtSeats_$event->Id'>Freie Plätze:</label>
+            echo "<label for='txtSeats_$event->Id'>Freie Plätze (inklusive Fahrerplatz):</label>
                     <input type='numeric' id='txtSeats_$event->Id' name='txtSeats_$event->Id'></p>";
         }
+
+        echo "<label for='txtNoteParticipate_$event->Id'>Bemerkung:</label><input type='text' name='txtNoteParticipate_$event->Id' id='txtNoteParticipate_$event->Id'/>";
 
         echo "</div>";
     }
 
+    echo "<input type='submit' name='cmdSubmitParticipations' value='Speichern' />";
     echo "</form>";
 } else {
     echo "<p>Keine Events vorhanden</p>";

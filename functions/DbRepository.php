@@ -216,7 +216,7 @@
 
             if($result) {
                 while ($rowEvent = mysqli_fetch_assoc($result)) {
-                    $event = new User();
+                    $event = new Event();
                     $event->Designation = $rowEvent["designation"];
                     $event->Description = $rowEvent["description"];
                     $event->Location = $rowEvent["location"];
@@ -236,30 +236,29 @@
         public function GetAllNewEvents($userId, $team) {
             $team = $this->dbConnection->real_escape_string($team);
             
-                        $query = "SELECT * FROM event e, EVENT_ASSIGNMENT a WHERE e.Id = a.EVENT_ID AND a.TEAM_DESIGNATION = '$team' AND e.ID NOT IN (SELECT event_id FROM event_participation WHERE user_id = $userId)";
-                        echo $query;
+            $query = "SELECT * FROM event e, EVENT_ASSIGNMENT a WHERE e.Id = a.EVENT_ID AND a.TEAM_DESIGNATION = '$team' AND e.ID NOT IN (SELECT event_id FROM event_participation WHERE user_id = $userId)";
             
-                        $result = $this->dbConnection->query($query);
+            $result = $this->dbConnection->query($query);
                         
-                        $events = array();
+            $events = array();
             
-                        if($result) {
-                            while ($rowEvent = mysqli_fetch_assoc($result)) {
-                                $event = new User();
-                                $event->Designation = $rowEvent["designation"];
-                                $event->Description = $rowEvent["description"];
-                                $event->Location = $rowEvent["location"];
-                                $event->Time = $rowEvent["start_time"];
-                                $event->MeetingLocation = $rowEvent["meeting_location"];
-                                $event->MeetingTime = $rowEvent["meeting_time"];
-                                $event->SeatsRequired = $rowEvent["qty_seats"];
-                                $event->ScorerRequired = $rowEvent["qty_scorer"];
-                                $event->UmpiresRequired = $rowEvent["qty_umpire"];
+            if($result) {
+                while ($rowEvent = mysqli_fetch_assoc($result)) {
+                    $event = new Event();
+                    $event->Designation = $rowEvent["designation"];
+                    $event->Description = $rowEvent["description"];
+                    $event->Location = $rowEvent["location"];
+                    $event->Time = $rowEvent["start_time"];
+                    $event->MeetingLocation = $rowEvent["meeting_location"];
+                    $event->MeetingTime = $rowEvent["meeting_time"];
+                    $event->SeatsRequired = $rowEvent["qty_seats"];
+                    $event->ScorerRequired = $rowEvent["qty_scorer"];
+                    $event->UmpiresRequired = $rowEvent["qty_umpire"];
                                 
-                                $events[] = $event;
-                            }
-                        }
-                        return $events;
+                    $events[] = $event;
+                    }
+                }
+                return $events;
         }
 
         /* Event Assignments */
