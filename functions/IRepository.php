@@ -27,6 +27,7 @@ Interface IRepository {
     public function AddEvent($designation, $description, $location, $startTime, $meetingTime, $meetingLocation, $umpsRequired, $scorerRequired, $seatsRequired);
     public function DeleteEvent($eventId);
     public function GetAllEvents($team);
+    public function GetAllNewEvents($userId, $team);
 
     /* Event Assignments */
     public function AddEventToTeam($eventId, $team);

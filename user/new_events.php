@@ -19,14 +19,12 @@ $repo = new DbRepository();
 echo '<a href="../start.php">Zurück</a>';
 echo '<h2>Aktuelle Events</h2>';
 
-$events = $repo->GetAllEvents($_SESSION['team']);
+$events = $repo->GetAllNewEvents($_SESSION["userid"], $_SESSION['team']);
 
 if (!empty($events)) {
     echo "<form action='new_events.php' method='POST'>";
 
     foreach($events as $event) {
-
-        
 
         echo "<div class='event'>";
         echo "<h3>$event->Designation</h3>";
