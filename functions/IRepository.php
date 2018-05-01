@@ -7,6 +7,7 @@ Interface IRepository {
     /* USER */
     public function AddUser($mail, $username, $password, $isAdmin);
     public function GetUser($mail, $password);
+    public function GetTeamForUser($userId);
     public function DeleteUser($mail);
     public function GetAllUsers();
     public function ValidateUser($mail, $password);
@@ -25,6 +26,7 @@ Interface IRepository {
     /* Event */
     public function AddEvent($designation, $description, $location, $startTime, $meetingTime, $meetingLocation, $umpsRequired, $scorerRequired, $seatsRequired);
     public function DeleteEvent($eventId);
+    public function GetAllEvents($team);
 
     /* Event Assignments */
     public function AddEventToTeam($eventId, $team);

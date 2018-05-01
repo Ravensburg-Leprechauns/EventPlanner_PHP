@@ -53,7 +53,7 @@
         echo '<h3>Navigation</h3>';
         echo '<ul>';
         echo '<li>Ausstehende Events</li>';
-        echo '<li>Aktuelle Events</li>';
+        echo '<li><a href="user/new_events.php">Aktuelle Events</a></li>';
         echo '<li>Vergangene Events</li>';
         echo '<li>Einstellungen</li>';
         echo '<li><a href="logout.php">Abmelden</a></li>';

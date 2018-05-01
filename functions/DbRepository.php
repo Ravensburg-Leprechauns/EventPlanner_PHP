@@ -75,7 +75,7 @@
         public function ValidateUser($mail, $password) {
             
             $mail = $this->dbConnection->real_escape_string($mail);
-            $query = "SELECT is_admin, username, password FROM user WHERE mail = '$mail'";
+            $query = "SELECT id, is_admin, username, password FROM user WHERE mail = '$mail'";
             $result = $this->dbConnection->query($query);
             $row = $result->fetch_assoc();
             
@@ -88,18 +88,32 @@
     
                 if($isAdmin == 0 || $isAdmin == 1) {
                     $_SESSION["username"] = $username;
+
+                    $teamDesignation = $this->GetTeamForUser($row['id']);
                     
                     if($isAdmin == 0) {
                         $_SESSION["usertype"] = "user";
                     } else {
                         $_SESSION["usertype"] = "admin";
                     }
+
+                    $_SESSION["team"] = $teamDesignation;
                     
                     return true;
                 } 
             }
         }
 
+        public function GetTeamForUser($userId) {
+            $userId = $this->dbConnection->real_escape_string($userId);
+            $query = "SELECT team_designation FROM team_assignment WHERE user_id = $userId";
+
+            $result = $this->dbConnection->query($query);
+            $row = $result->fetch_assoc();
+
+            // TODO Check if no team is assigned
+            return $row['team_designation'];
+        }
 
         /* TEAM */
         public function AddTeam($designation) {
@@ -189,6 +203,33 @@
             
         }     
 
+        public function GetAllEvents($team) {
+            $team = $this->dbConnection->real_escape_string($team);
+
+            $query = "SELECT * FROM event e, EVENT_ASSIGNMENT a WHERE e.Id = a.EVENT_ID AND a.TEAM_DESIGNATION = '$team'";
+
+            $result = $this->dbConnection->query($query);
+            
+            $events = array();
+
+            if($result) {
+                while ($rowEvent = mysqli_fetch_assoc($result)) {
+                    $event = new User();
+                    $event->Designation = $rowEvent["designation"];
+                    $event->Description = $rowEvent["description"];
+                    $event->Location = $rowEvent["location"];
+                    $event->Time = $rowEvent["start_time"];
+                    $event->MeetingLocation = $rowEvent["meeting_location"];
+                    $event->MeetingTime = $rowEvent["meeting_time"];
+                    $event->SeatsRequired = $rowEvent["qty_seats"];
+                    $event->ScorerRequired = $rowEvent["qty_scorer"];
+                    $event->UmpiresRequired = $rowEvent["qty_umpire"];
+                    
+                    $events[] = $event;
+                }
+            }
+            return $events;
+        }
 
         /* Event Assignments */
         public function AddEventToTeam($eventId, $team) {
