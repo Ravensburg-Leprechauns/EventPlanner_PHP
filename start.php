@@ -35,6 +35,7 @@
         echo '<li><a href="admin/edit_user.php">Benutzer verwalten</a></li>';
         echo '<li><a href="admin/add_team.php">Neues Team anlegen</a></li>';
         echo '<li><a href="admin/add_event.php">Neues Event anlegen</a></li>';
+        echo '<li><a href="admin/current_events.php">Aktuelle Events einsehen</a></li>';
         echo '<li><a href="admin/add_news.php">News</a></li>';
         echo '</ul>';
 

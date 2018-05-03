@@ -261,6 +261,34 @@
                 return $events;
         }
 
+        public function GetAllUnfinishedEvents() {
+
+            $query = "SELECT * FROM event WHERE start_time > NOW()";
+            
+            $result = $this->dbConnection->query($query);
+                        
+            $events = array();
+            
+            if($result) {
+                while ($rowEvent = mysqli_fetch_assoc($result)) {
+                    $event = new Event();
+                    $event->Id = $rowEvent["id"];
+                    $event->Designation = $rowEvent["designation"];
+                    $event->Description = $rowEvent["description"];
+                    $event->Location = $rowEvent["location"];
+                    $event->Time = $rowEvent["start_time"];
+                    $event->MeetingLocation = $rowEvent["meeting_location"];
+                    $event->MeetingTime = $rowEvent["meeting_time"];
+                    $event->SeatsRequired = $rowEvent["qty_seats"];
+                    $event->ScorerRequired = $rowEvent["qty_scorer"];
+                    $event->UmpiresRequired = $rowEvent["qty_umpire"];
+                                
+                    $events[] = $event;
+                }
+            }
+            return $events;
+        }
+
         /* Event Assignments */
         public function AddEventToTeam($eventId, $team) {
             $eventId = $this->dbConnection->real_escape_string($eventId);
@@ -281,6 +309,34 @@
             
         }
         
+        public function GetEventParticipations($event) {
+
+            $eventParticipations = array();
+
+            $query = "SELECT ep.accepted, ep.note, ep.seats, ep.is_umpire, ep.is_scorer, ep.is_player, ep.is_coach, u.username
+                 FROM event_participation ep, user u  WHERE event_id = $event->Id AND u.Id = ep.user_id";
+
+            $result = $this->dbConnection->query($query);
+
+            if($result) {
+                while ($rowEvent = mysqli_fetch_assoc($result)) {
+                    $eventParticipation = new EventParticipation();
+                    $eventParticipation->Event = $event;
+                    $eventParticipation->Username = $rowEvent["username"];
+                    $eventParticipation->Accepted = $rowEvent["accepted"];
+                    $eventParticipation->Note = $rowEvent["note"];
+                    $eventParticipation->Seats = $rowEvent["seats"];
+                    $eventParticipation->IsUmpire = $rowEvent["is_umpire"];
+                    $eventParticipation->IsScorer = $rowEvent["is_scorer"];
+                    $eventParticipation->IsPlayer = $rowEvent["is_player"];
+                    $eventParticipation->IsCoach = $rowEvent["is_coach"];
+        
+                    $eventParticipations[] = $eventParticipation;
+                }
+            }
+            return $eventParticipations;
+        }
+
         /* Mail Configuration */
         public function GetMailConfiguration() {
             $query = "SELECT host, username, password, smtp_secure, port, from_address, from_name FROM mail_configuration LIMIT 1";

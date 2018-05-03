@@ -28,6 +28,7 @@ Interface IRepository {
     public function DeleteEvent($eventId);
     public function GetAllEvents($team);
     public function GetAllNewEvents($userId, $team);
+    public function GetAllUnfinishedEvents();
 
     /* Event Assignments */
     public function AddEventToTeam($eventId, $team);
@@ -35,6 +36,7 @@ Interface IRepository {
 
     /* Event Participation */
     public function AddParticipation($userEmail, $eventId, $accepted, $note, $seats, $isUmpire, $isScorer, $isPlayer, $isCoach);
+    public function GetEventParticipations($eventId);
 
     /* Mail Configuration */
     public function GetMailConfiguration();
